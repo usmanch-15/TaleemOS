@@ -9,6 +9,30 @@ import '../features/students/presentation/screens/student_detail_screen.dart';
 import '../features/teachers/presentation/screens/teachers_list_screen.dart';
 import '../features/teachers/presentation/screens/add_teacher_screen.dart';
 import '../features/teachers/presentation/screens/teacher_detail_screen.dart';
+// Imports:
+// Imports:
+import '../features/attendance/presentation/screens/attendance_screen.dart';
+import '../features/attendance/presentation/screens/mark_attendance_screen.dart';
+import '../features/attendance/presentation/screens/attendance_history_screen.dart';
+import '../features/attendance/presentation/screens/attendance_report_screen.dart';
+
+// Routes:
+GoRoute(path: '/teacher/attendance', builder: (context, state) => const AttendanceScreen()),
+GoRoute(
+path: '/teacher/attendance/mark',
+builder: (context, state) {
+final extra = state.extra as Map<String, dynamic>;
+return MarkAttendanceScreen(classId: extra['classId'] as String, className: extra['className'] as String);
+},
+),
+GoRoute(
+path: '/attendance/history/:studentId',
+builder: (context, state) => AttendanceHistoryScreen(
+studentId: state.pathParameters['studentId']!,
+studentName: state.extra as String? ?? 'Student',
+),
+),
+GoRoute(path: '/admin/attendance/reports', builder: (context, state) => const AttendanceReportScreen()),
 
 // GoRoute list mein add karein:
 GoRoute(path: '/admin/school-setup', builder: (context, state) => const SchoolSetupWizardScreen()),
