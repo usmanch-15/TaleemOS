@@ -29,7 +29,30 @@ import '../features/exams/presentation/screens/marks_entry_screen.dart';
 import '../features/exams/presentation/screens/class_results_screen.dart';
 import '../features/exams/presentation/screens/student_results_screen.dart';
 import '../features/exams/presentation/screens/report_card_screen.dart';
+// Imports:
+import '../features/fees/presentation/screens/fee_dashboard_screen.dart';
+import '../features/fees/presentation/screens/fee_structures_screen.dart';
+import '../features/fees/presentation/screens/generate_invoices_screen.dart';
+import '../features/fees/presentation/screens/invoices_list_screen.dart';
+import '../features/fees/presentation/screens/invoice_detail_screen.dart';
+import '../features/fees/presentation/screens/parent_fee_screen.dart';
 
+// Routes:
+GoRoute(path: '/fees/dashboard', builder: (context, state) => const FeeDashboardScreen()),
+GoRoute(path: '/fees/structures', builder: (context, state) => const FeeStructuresScreen()),
+GoRoute(path: '/fees/generate-invoices', builder: (context, state) => const GenerateInvoicesScreen()),
+GoRoute(path: '/fees/invoices', builder: (context, state) => const InvoicesListScreen()),
+GoRoute(
+path: '/fees/invoice/:invoiceId',
+builder: (context, state) => InvoiceDetailScreen(invoiceId: state.pathParameters['invoiceId']!),
+),
+GoRoute(
+path: '/parent/fees/:studentId',
+builder: (context, state) => ParentFeeScreen(
+studentId: state.pathParameters['studentId']!,
+studentName: state.extra as String? ?? 'Child',
+),
+),
 // Routes:
 GoRoute(path: '/admin/exams', builder: (context, state) => const ExamsListScreen()),
 GoRoute(path: '/admin/exams/create', builder: (context, state) => const CreateExamScreen()),
