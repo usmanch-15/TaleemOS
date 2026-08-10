@@ -21,7 +21,57 @@ import '../features/homework/presentation/screens/homework_detail_teacher_screen
 import '../features/homework/presentation/screens/student_homework_list_screen.dart';
 import '../features/homework/presentation/screens/submit_homework_screen.dart';
 import '../features/homework/presentation/screens/parent_homework_screen.dart';
+// Imports:
+import '../features/exams/presentation/screens/exams_list_screen.dart';
+import '../features/exams/presentation/screens/create_exam_screen.dart';
+import '../features/exams/presentation/screens/exam_detail_screen.dart';
+import '../features/exams/presentation/screens/marks_entry_screen.dart';
+import '../features/exams/presentation/screens/class_results_screen.dart';
+import '../features/exams/presentation/screens/student_results_screen.dart';
+import '../features/exams/presentation/screens/report_card_screen.dart';
 
+// Routes:
+GoRoute(path: '/admin/exams', builder: (context, state) => const ExamsListScreen()),
+GoRoute(path: '/admin/exams/create', builder: (context, state) => const CreateExamScreen()),
+GoRoute(
+path: '/admin/exams/:examId',
+builder: (context, state) => ExamDetailScreen(examId: state.pathParameters['examId']!),
+),
+GoRoute(
+path: '/admin/exams/:examId/marks-entry',
+builder: (context, state) {
+final extra = state.extra as Map<String, dynamic>;
+return MarksEntryScreen(
+examId: state.pathParameters['examId']!,
+examSubjectId: extra['examSubjectId'] as String,
+subjectName: extra['subjectName'] as String,
+classId: extra['classId'] as String,
+totalMarks: extra['totalMarks'] as double,
+);
+},
+),
+GoRoute(
+path: '/admin/exams/:examId/results',
+builder: (context, state) => ClassResultsScreen(examId: state.pathParameters['examId']!),
+),
+GoRoute(
+path: '/results/:studentId',
+builder: (context, state) => StudentResultsScreen(
+studentId: state.pathParameters['studentId']!,
+studentName: state.extra as String? ?? 'Student',
+),
+),
+GoRoute(
+path: '/results/report-card/:examId',
+builder: (context, state) {
+final extra = state.extra as Map<String, dynamic>;
+return ReportCardScreen(
+examId: state.pathParameters['examId']!,
+studentId: extra['studentId'] as String,
+studentName: extra['studentName'] as String,
+);
+},
+),
 // Routes:
 GoRoute(path: '/teacher/attendance', builder: (context, state) => const AttendanceScreen()),
 GoRoute(
