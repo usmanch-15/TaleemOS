@@ -39,7 +39,30 @@ import '../features/fees/presentation/screens/generate_invoices_screen.dart';
 import '../features/fees/presentation/screens/invoices_list_screen.dart';
 import '../features/fees/presentation/screens/invoice_detail_screen.dart';
 import '../features/fees/presentation/screens/parent_fee_screen.dart';
+// Imports:
+import '../features/announcements/presentation/screens/announcements_list_screen.dart';
+import '../features/announcements/presentation/screens/create_announcement_screen.dart';
+import '../features/announcements/presentation/screens/announcement_detail_screen.dart';
+import '../features/announcements/domain/entities/announcement_entity.dart';
+import '../features/complaints/presentation/screens/complaints_list_screen.dart';
+import '../features/complaints/presentation/screens/create_complaint_screen.dart';
+import '../features/complaints/presentation/screens/complaint_detail_screen.dart';
+import '../features/notifications/presentation/screens/notification_preferences_screen.dart';
 
+// Routes:
+GoRoute(path: '/announcements', builder: (context, state) => const AnnouncementsListScreen()),
+GoRoute(path: '/announcements/create', builder: (context, state) => const CreateAnnouncementScreen()),
+GoRoute(
+path: '/announcements/:id',
+builder: (context, state) => AnnouncementDetailScreen(announcement: state.extra as AnnouncementEntity),
+),
+GoRoute(path: '/complaints', builder: (context, state) => const ComplaintsListScreen()),
+GoRoute(path: '/complaints/create', builder: (context, state) => const CreateComplaintScreen()),
+GoRoute(
+path: '/complaints/:complaintId',
+builder: (context, state) => ComplaintDetailScreen(complaintId: state.pathParameters['complaintId']!),
+),
+GoRoute(path: '/notifications/preferences', builder: (context, state) => const NotificationPreferencesScreen()),
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authControllerProvider);
 
