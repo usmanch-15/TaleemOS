@@ -1,9 +1,8 @@
 import 'dart:io';
-import '../../data/datasources/school_remote_datasource.dart';
-import '../../data/models/school_model.dart';
 import '../../domain/entities/school_entity.dart';
 import '../../domain/repositories/school_repository.dart';
-
+import '../datasources/school_remote_datasource.dart';
+import '../models/school_model.dart';
 
 class SchoolRepositoryImpl implements SchoolRepository {
   final SchoolRemoteDatasource remote;

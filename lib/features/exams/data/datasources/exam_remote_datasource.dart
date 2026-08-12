@@ -71,7 +71,6 @@ class ExamRemoteDatasource {
     await client.from('exams').delete().eq('id', examId);
   }
 
-  /// Get marks-entry sheet: all students of the class with existing results (if any) for one subject
   Future<List<ResultModel>> getMarksSheet({
     required String examSubjectId,
     required String classId,
@@ -111,7 +110,7 @@ class ExamRemoteDatasource {
     required String examSubjectId,
     required String schoolId,
     required String enteredBy,
-    required Map<String, double?> studentMarksMap, // studentId -> marks
+    required Map<String, double?> studentMarksMap,
   }) async {
     final rows = studentMarksMap.entries
         .where((e) => e.value != null)
@@ -169,7 +168,6 @@ class ExamRemoteDatasource {
         .eq('student_id', studentId)
         .order('updated_at', ascending: false);
 
-    // Filter only published exams client-side (defensive; RLS already restricts)
     return (data as List)
         .where((e) => (e['exams'] as Map<String, dynamic>?)?['status'] == 'published')
         .map((e) => ExamSummaryModel.fromMap(e))

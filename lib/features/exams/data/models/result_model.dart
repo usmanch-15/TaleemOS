@@ -1,5 +1,3 @@
-
-
 import '../../domain/entities/result_entity.dart';
 
 class ResultModel extends ResultEntity {

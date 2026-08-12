@@ -1,4 +1,3 @@
-
 import '../../domain/entities/exam_entity.dart';
 
 class ExamSubjectModel extends ExamSubjectEntity {
