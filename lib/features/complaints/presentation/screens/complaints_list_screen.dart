@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
+import '../../domain/entities/complaint_entity.dart';
 import '../providers/complaint_provider.dart';
 import '../widgets/complaint_status_badge.dart';
 
