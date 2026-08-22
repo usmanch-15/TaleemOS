@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/utils/validators.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_text_field.dart';
+import '../../domain/entities/user_entity.dart';
 import '../providers/auth_provider.dart';
 import '../providers/auth_state.dart';
 
@@ -20,13 +21,48 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
 
+  String _dashboardPathForRole(UserRole role) {
+    switch (role) {
+      case UserRole.superAdmin:
+        return '/dashboard/super-admin';
+      case UserRole.admin:
+        return '/dashboard/admin';
+      case UserRole.teacher:
+        return '/dashboard/teacher';
+      case UserRole.parent:
+        return '/dashboard/parent';
+      case UserRole.student:
+        return '/dashboard/student';
+      case UserRole.accountant:
+        return '/dashboard/accountant';
+      case UserRole.transportManager:
+        return '/dashboard/transport';
+    }
+  }
+
   Future<void> _handleLogin() async {
     if (!_formKey.currentState!.validate()) return;
+
     final success = await ref.read(authControllerProvider.notifier).login(
       email: _emailController.text,
       password: _passwordController.text,
     );
-    if (success && mounted) context.go('/dashboard');
+
+    if (!mounted) return;
+
+    if (success) {
+      final role = ref.read(authControllerProvider).user?.role;
+      if (role != null) {
+        context.go(_dashboardPathForRole(role));
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override

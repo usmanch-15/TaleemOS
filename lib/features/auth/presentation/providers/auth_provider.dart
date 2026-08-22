@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart' hide AuthState;
@@ -78,7 +79,12 @@ class AuthController extends StateNotifier<AuthState> {
       }
       state = state.copyWith(status: AuthStatus.authenticated, user: user);
       return true;
-    } catch (e) {
+    } catch (e, st) {
+      // TEMP DEBUG: yeh print sirf debugging ke liye hai, baad mein hata dena.
+      // ignore: avoid_print
+      print('LOGIN ERROR (raw): $e');
+      // ignore: avoid_print
+      print('LOGIN ERROR (stack): $st');
       state = state.copyWith(status: AuthStatus.error, errorMessage: ErrorHandler.handle(e).message);
       return false;
     }

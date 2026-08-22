@@ -18,7 +18,7 @@ import '../features/school/presentation/screens/school_setup_wizard_screen.dart'
 import '../features/school/presentation/screens/school_profile_screen.dart';
 
 // Classes
-import 'package:taleemos/features/classes/presentation/screens/classes_screen.dart';
+import '../features/classes/presentation/screens/classes_screen.dart';
 import '../features/classes/presentation/screens/class_detail_screen.dart';
 
 // Students
@@ -115,12 +115,26 @@ import '../features/common/presentation/screens/privacy_policy_screen.dart';
 import '../features/common/presentation/screens/terms_conditions_screen.dart';
 import '../features/common/presentation/screens/onboarding_screen.dart';
 
-final routerProvider = Provider<GoRouter>((ref) {
-  final authState = ref.watch(authControllerProvider);
+/// GoRouter ka redirect() sirf dobara CHECK hone ke liye is Listenable ko use karta hai.
+/// Auth state change hone par yahan sirf notifyListeners() hota hai — poora naya
+/// GoRouter instance nahi banta, isliye navigation stack reset nahi hota
+/// aur login ke baad screen theek se dashboard par navigate karti hai.
+class GoRouterRefreshNotifier extends ChangeNotifier {
+  GoRouterRefreshNotifier(Ref ref) {
+    ref.listen<AuthState>(authControllerProvider, (previous, next) {
+      notifyListeners();
+    });
+  }
+}
 
+final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/splash',
+    refreshListenable: GoRouterRefreshNotifier(ref),
     redirect: (context, state) {
+      // ref.read() use kiya hai (watch nahi) — taake redirect callback
+      // hamesha latest auth state dekhe, aur Provider dobara build na ho.
+      final authState = ref.read(authControllerProvider);
       final isLoading = authState.status == AuthStatus.loading || authState.status == AuthStatus.initial;
       final isAuthenticated = authState.status == AuthStatus.authenticated;
       final isAuthRoute = ['/login', '/register', '/otp-login', '/forgot-password'].contains(state.matchedLocation);

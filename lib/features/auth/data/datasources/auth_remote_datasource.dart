@@ -59,6 +59,9 @@ class AuthRemoteDatasource {
     }
 
     // Step 3: users table mein profile insert karein
+    // Note: Development/testing ke liye sab roles 'active' status ke sath ban rahe hain.
+    // Production mein jab Super Admin approval workflow ban jaye, tab admin role ke liye
+    // 'pending_approval' wapas laga dein taake naye schools manually verify ho sakein.
     await client.from('users').insert({
       'id': authUser.id,
       'school_id': schoolResult['id'],
@@ -66,7 +69,7 @@ class AuthRemoteDatasource {
       'email': email.trim(),
       'phone': phone.trim(),
       'role': role,
-      'status': role == 'admin' ? 'pending_approval' : 'active',
+      'status': 'active',
     });
   }
 
